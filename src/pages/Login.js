@@ -1,4 +1,9 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { responseTokenAPI, login } from '../redux/action';
+import { setLocalStorage } from '../services/localStorage';
+import { fetchToken } from '../services/servicesFetchAPI';
 
 class Login extends Component {
   constructor() {
@@ -10,7 +15,7 @@ class Login extends Component {
       isDisabled: 'true',
     };
     this.handleChange = this.handleChange.bind(this);
-    // this.handleClick = this.handleClick.bind(this);
+    this.handleClick = this.handleClick.bind(this);
     this.validateInput = this.validateInput.bind(this);
   }
 
@@ -31,12 +36,18 @@ class Login extends Component {
       : this.setState({ isDisabled: true });
   }
 
-  // handleClick() {
-
-  // }
+  async handleClick() {
+    const { dispatch, history } = this.props;
+    const tokenValidate = await fetchToken();
+    dispatch(login(this.state));
+    dispatch(responseTokenAPI(tokenValidate));
+    setLocalStorage('token', tokenValidate);
+    history.push('/play');
+  }
 
   render() {
     const { name, email, isDisabled } = this.state;
+    const { history } = this.props;
     return (
       <div>
         <form>
@@ -65,10 +76,17 @@ class Login extends Component {
           <button
             type="button"
             data-testid="btn-play"
-            // onClick={ this.handleClick }
+            onClick={ this.handleClick }
             disabled={ isDisabled }
           >
             Play
+          </button>
+          <button
+            type="button"
+            data-testid="btn-settings"
+            onClick={ () => history.push('/settings') }
+          >
+            Settings
           </button>
         </form>
       </div>
@@ -76,4 +94,9 @@ class Login extends Component {
   }
 }
 
-export default Login;
+Login.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  history: PropTypes.instanceOf(Object).isRequired,
+};
+
+export default connect()(Login);

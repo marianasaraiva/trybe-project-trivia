@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import './App.css';
 import store from './redux/store';
 import Login from './pages/Login';
-import Feedback from './pages/Feedback';
+import Settings from './pages/Settings';
 import Play from './pages/Play';
 import Ranking from './pages/Ranking';
 
@@ -14,7 +14,7 @@ export default function App() {
       <BrowserRouter>
         <Switch>
           <Route exact path="/" component={ Login } />
-          <Route exact path="/feedback" component={ Feedback } />
+          <Route exact path="/settings" component={ Settings } />
           <Route exact path="/play" component={ Play } />
           <Route exact path="/ranking" component={ Ranking } />
         </Switch>
