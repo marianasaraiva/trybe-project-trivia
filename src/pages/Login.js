@@ -37,10 +37,10 @@ class Login extends Component {
   }
 
   async handleClick() {
-    const { dispatch, history } = this.props;
+    const { history, token, login } = this.props;
     const tokenValidate = await fetchToken();
-    dispatch(login(this.state));
-    dispatch(responseTokenAPI(tokenValidate));
+    login(this.state);
+    token(tokenValidate);
     setLocalStorage('token', tokenValidate);
     history.push('/play');
   }
@@ -94,9 +94,15 @@ class Login extends Component {
   }
 }
 
+const mapDispatchToProps = (dispatch) => ({
+  login: (payload) => dispatch(login(payload)),
+  token: (payload) => dispatch(responseTokenAPI(payload)),
+});
+
 Login.propTypes = {
-  dispatch: PropTypes.func.isRequired,
   history: PropTypes.instanceOf(Object).isRequired,
+  login: PropTypes.func.isRequired,
+  token: PropTypes.func.isRequired,
 };
 
-export default connect()(Login);
+export default connect(null, mapDispatchToProps)(Login);
