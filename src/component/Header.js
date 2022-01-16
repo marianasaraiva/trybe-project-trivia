@@ -27,7 +27,6 @@ export class Header extends Component {
   render() {
     const { hash } = this.state;
     const { name } = this.props;
-    console.log(this.props);
     return (
       <header>
         <img src={ `https://www.gravatar.com/avatar/${hash}` } data-testid="header-profile-picture" alt={ name } />
