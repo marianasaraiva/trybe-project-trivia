@@ -1,0 +1,9 @@
+.answered .correct {
+  background-color: rgb(6, 240, 15);
+  /* border: 3px solid green, */
+}
+
+.answered .incorrect {
+  /* background-color: red; */
+  border: 3px solid rgb(255, 0, 0);
+}

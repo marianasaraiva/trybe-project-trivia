@@ -22,9 +22,10 @@ class Play extends Component {
     this.getReponseAPI();
   }
 
-  // Lógica grupo Gabriel Fontes sobre respostas na aplicação:
+  // Lógica grupo Gabriel Fontes:
   // validar se o token está válido:
   async getReponseAPI() {
+    console.log(this.props);
     const { token } = this.props;
     const questions = await fetchAPI(token);
     if (questions.response_code === 0) {
@@ -50,7 +51,7 @@ class Play extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  token: state.userReducer.token,
+  token: state.token,
 });
 
 Play.propTypes = {

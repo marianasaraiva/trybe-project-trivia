@@ -5,7 +5,7 @@ const INITIAL_STATE = {
   assertions: '',
   score: '',
   gravatarEmail: '',
-  token: '',
+  // token: '',
 };
 
 const userReducer = (state = INITIAL_STATE, action) => {
@@ -15,7 +15,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
       ...state,
       name: action.payload.name,
       gravatarEmail: action.payload.email,
-      token: action.payload.token,
+      // token: action.payload.token,
     };
   default:
     return state;
