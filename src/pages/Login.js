@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { responseTokenAPI, login } from '../redux/action';
+import { responseTokenAPI, loginAction } from '../redux/action';
 import { setLocalStorage } from '../services/localStorage';
 import { fetchToken } from '../services/servicesFetchAPI';
 
@@ -95,7 +95,7 @@ class Login extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  login: (payload) => dispatch(login(payload)),
+  login: (payload) => dispatch(loginAction(payload)),
   token: (payload) => dispatch(responseTokenAPI(payload)),
 });
 
