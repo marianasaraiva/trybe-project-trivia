@@ -36,12 +36,13 @@ export class Question extends Component {
   changeColor() {
     const button = document.querySelectorAll('.questions');
     button.forEach((alternatives) => {
-      alternatives.classList.toggle('answered');
+      alternatives.classList
+        .toggle(alternatives.name === 'correct-answer' ? 'correct' : 'incorrect');
     });
   }
 
   handleClick() {
-    return this.changeColor();
+    this.changeColor();
   }
 
   render() {
@@ -51,16 +52,16 @@ export class Question extends Component {
       <div>
         <p data-testid="question-category">{ question.category}</p>
         <p data-testid="question-text">{ question.question}</p>
-        <div data-testid="answer-options" className="questions">
+        <div data-testid="answer-options">
           {
             alternatives.map(([text, testid], index) => (
               <button
-                className={ testid === 'correct-answer' ? 'correct' : 'incorrect' }
+                className="questions"
                 type="button"
                 key={ index }
                 name={ testid }
                 data-testid={ testid }
-                onClick={ this.handlClick }
+                onClick={ this.handleClick }
                 id={ testid }
               >
                 { text }
