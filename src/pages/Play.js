@@ -45,7 +45,6 @@ class Play extends Component {
         <Header />
         { render && <Question question={ questions[actualQuestion] } /> }
       </div>
-
     );
   }
 }
