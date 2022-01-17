@@ -18,6 +18,7 @@ class Play extends Component {
 
     this.getReponseAPI = this.getReponseAPI.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
+    this.changeDisplayHidden = this.changeDisplayHidden.bind(this);
   }
 
   componentDidMount() {
@@ -48,13 +49,17 @@ class Play extends Component {
         actualQuestion: actualQuestion + 1,
       });
     }
+    this.changeDisplayHidden();
+  }
+
+  changeDisplayHidden() {
     const nextButton = document.querySelector('.next-button');
     nextButton.style.visibility = 'hidden';
   }
 
   render() {
     const { questions, actualQuestion, render } = this.state;
-    console.log(actualQuestion);
+    console.log(questions);
     return (
       <div>
         <h1>Página do Play</h1>

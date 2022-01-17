@@ -28,7 +28,7 @@ export class Question extends Component {
     this.assertionQuestions = this.assertionQuestions.bind(this);
     this.levelQuestion = this.levelQuestion.bind(this);
     this.questionScore = this.questionScore.bind(this);
-    this.changeDisplay = this.changeDisplay.bind(this);
+    this.changeDisplayVisible = this.changeDisplayVisible.bind(this);
   }
 
   componentDidMount() {
@@ -122,10 +122,10 @@ export class Question extends Component {
     if (target.name === correctAnswer) {
       this.questionScore();
     }
-    this.changeDisplay();
+    this.changeDisplayVisible();
   }
 
-  changeDisplay() {
+  changeDisplayVisible() {
     const nextButton = document.querySelector('.next-button');
     nextButton.style.visibility = 'visible';
   }
