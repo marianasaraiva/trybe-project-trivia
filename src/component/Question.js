@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { pointsPlayer } from '../redux/action';
 import './Question.css';
 
 const milliseconds = 1000;
 const correctAnswer = 'correct-answer';
+const numeroTres = 3;
+const numeroDez = 10;
 
 export class Question extends Component {
   constructor() {
@@ -20,9 +24,10 @@ export class Question extends Component {
     this.changeColor = this.changeColor.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.regressTimer = this.regressTimer.bind(this);
-    this.sotpTimer = this.sotpTimer.bind(this);
+    this.stopTime = this.stopTime.bind(this);
     this.assertionQuestions = this.assertionQuestions.bind(this);
-    // this.calculatePoints = this.calculate.bind(this);
+    this.levelQuestion = this.levelQuestion.bind(this);
+    this.questionScore = this.questionScore.bind(this);
   }
 
   componentDidMount() {
@@ -30,6 +35,7 @@ export class Question extends Component {
     this.regressTimer();
   }
 
+  // Lógica para o cronometro para responder as perguntas:
   regressTimer() {
     const interval = setInterval(() => {
       const { seconds, clicked } = this.state;
@@ -60,7 +66,7 @@ export class Question extends Component {
     }
   }
 
-  // Lógica para mudar a cor da resposta
+  // Lógica para mudar a cor da resposta:
   changeColor() {
     const button = document.querySelectorAll('.questions');
     button.forEach((alternatives) => {
@@ -69,32 +75,52 @@ export class Question extends Component {
     });
   }
 
-  // calculateScore() {
+  // Lógica para score do game, pontuação:
+  levelQuestion() {
+    const { question } = this.props;
+    console.log(question);
+    if (question.difficulty === 'medium') {
+      return 2;
+    }
+    if (question.difficulty === 'hard') {
+      return numeroTres;
+    }
+    return 1;
+  }
 
-  // }
+  questionScore() {
+    const { seconds } = this.state;
+    const { points } = this.props;
+    console.log(points);
+    const levelQuestionReturn = this.levelQuestion();
+    console.log(levelQuestionReturn);
+    const calculatePoints = numeroDez + (levelQuestionReturn * seconds);
+    console.log(calculatePoints);
+    points(calculatePoints);
+  }
 
-  sotpTimer() {
+  stopTime() {
     this.setState({
       clicked: true,
     });
   }
 
-  assertionQuestions({ target }) {
+  assertionQuestions(event) {
     const { assertions } = this.state;
-    if (target.name === correctAnswer) {
+    if (event.name === correctAnswer) {
       this.setState({
         assertions: assertions + 1,
       });
     }
   }
 
-  handleClick(a) {
+  handleClick({ target }) {
     this.changeColor();
-    this.sotpTimer();
-    this.assertionQuestions(a);
-    // if( target.name === 'correct-answer'){
-    //   this.calculatePoints();
-    // }
+    this.stopTime();
+    this.assertionQuestions({ target });
+    if (target.name === correctAnswer) {
+      this.questionScore();
+    }
   }
 
   render() {
@@ -123,13 +149,26 @@ export class Question extends Component {
           }
         </div>
         { seconds }
+        <button
+          type="button"
+          data-testid="btn-next"
+          // disabled={ isDisabled }
+          onClick={ () => {} }
+        >
+          Next
+        </button>
       </div>
     );
   }
 }
 
+const mapDispatchToProps = (dispatch) => ({
+  points: (payload) => dispatch(pointsPlayer(payload)),
+});
+
 Question.propTypes = {
   question: PropTypes.string.isRequired,
+  points: PropTypes.func.isRequired,
 };
 
-export default Question;
+export default connect(null, mapDispatchToProps)(Question);
