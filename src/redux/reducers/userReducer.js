@@ -1,11 +1,10 @@
-import { LOGIN } from '../action';
+import { LOGIN, POINTS_PLAYER } from '../action';
 
 const INITIAL_STATE = {
   name: '',
   assertions: '',
-  score: '',
+  score: 0,
   gravatarEmail: '',
-  // token: '',
 };
 
 const userReducer = (state = INITIAL_STATE, action) => {
@@ -15,7 +14,11 @@ const userReducer = (state = INITIAL_STATE, action) => {
       ...state,
       name: action.payload.name,
       gravatarEmail: action.payload.email,
-      // token: action.payload.token,
+    };
+  case POINTS_PLAYER:
+    return {
+      ...state,
+      score: state.score + action.payload,
     };
   default:
     return state;
