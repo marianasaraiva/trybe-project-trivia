@@ -21,8 +21,8 @@ export class Feedback extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  score: state.userReducer.score,
-  assertions: state.userReducer.assertions,
+  score: state.player.score,
+  assertions: state.player.assertions,
 });
 
 Feedback.propTypes = {

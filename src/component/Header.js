@@ -37,9 +37,9 @@ export class Header extends Component {
   }
 }
 const mapStateToProps = (state) => ({
-  name: state.userReducer.name,
-  email: state.userReducer.gravatarEmail,
-  score: state.userReducer.score,
+  name: state.player.name,
+  email: state.player.gravatarEmail,
+  score: state.player.score,
 });
 
 Header.propTypes = {
