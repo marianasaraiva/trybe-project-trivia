@@ -29,11 +29,20 @@ export class Question extends Component {
     this.levelQuestion = this.levelQuestion.bind(this);
     this.questionScore = this.questionScore.bind(this);
     this.changeDisplayVisible = this.changeDisplayVisible.bind(this);
+    this.handleNextClick = this.handleNextClick.bind(this);
   }
 
   componentDidMount() {
     this.alternativesQuestions();
     this.regressTimer();
+  }
+
+  // Lógica grupo Gabriel Fontes
+  componentDidUpdate(prevProps) {
+    const { question } = this.props;
+    if (prevProps.question !== question) {
+      this.alternativesQuestions();
+    }
   }
 
   // Lógica para o cronometro para responder as perguntas:
@@ -56,6 +65,7 @@ export class Question extends Component {
   // Lógica para gerar randomicamente as respostas
   alternativesQuestions() {
     const { question } = this.props;
+    console.log(question);
     if (Object.keys(question).length > 0) {
       const answers = question.incorrect_answers
         .map((incorrect, index) => [incorrect, `wrong-answer-${index}`,
@@ -130,8 +140,21 @@ export class Question extends Component {
     nextButton.style.visibility = 'visible';
   }
 
+  handleNextClick() {
+    const { nextQuestion } = this.props;
+    nextQuestion();
+    this.setState({
+      alternatives: [],
+      seconds: 30,
+      clicked: false,
+      disabledButton: false,
+      assertions: 0,
+    });
+    this.regressTimer();
+  }
+
   render() {
-    const { question, nextQuestion } = this.props;
+    const { question } = this.props;
     const { alternatives, disabledButton, seconds } = this.state;
     return (
       <div>
@@ -161,7 +184,7 @@ export class Question extends Component {
           type="button"
           data-testid="btn-next"
           // disabled={ isDisabled }
-          onClick={ nextQuestion }
+          onClick={ this.handleNextClick }
         >
           Next
         </button>
