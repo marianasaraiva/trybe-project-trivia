@@ -17,6 +17,7 @@ class Play extends Component {
     };
 
     this.getReponseAPI = this.getReponseAPI.bind(this);
+    this.nextQuestion = this.nextQuestion.bind(this);
   }
 
   componentDidMount() {
@@ -37,14 +38,32 @@ class Play extends Component {
     }
   }
 
+  nextQuestion() {
+    const { history } = this.props;
+    const { actualQuestion, questions } = this.state;
+    if (actualQuestion === questions.length - 1) {
+      history.push('/feedback');
+    } else {
+      this.setState({
+        actualQuestion: actualQuestion + 1,
+      });
+    }
+    const nextButton = document.querySelector('.next-button');
+    nextButton.style.visibility = 'hidden';
+  }
+
   render() {
     const { questions, actualQuestion, render } = this.state;
+    console.log(actualQuestion);
     return (
       <div>
         <h1>Página do Play</h1>
         <Header />
         <Link to="/feedback">Feedback</Link>
-        { render && <Question question={ questions[actualQuestion] } /> }
+        { render && <Question
+          nextQuestion={ this.nextQuestion }
+          question={ questions[actualQuestion] }
+        /> }
       </div>
     );
   }
@@ -56,6 +75,7 @@ const mapStateToProps = (state) => ({
 
 Play.propTypes = {
   token: PropTypes.string.isRequired,
+  history: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps)(Play);

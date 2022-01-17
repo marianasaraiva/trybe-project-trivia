@@ -28,6 +28,7 @@ export class Question extends Component {
     this.assertionQuestions = this.assertionQuestions.bind(this);
     this.levelQuestion = this.levelQuestion.bind(this);
     this.questionScore = this.questionScore.bind(this);
+    this.changeDisplay = this.changeDisplay.bind(this);
   }
 
   componentDidMount() {
@@ -121,10 +122,16 @@ export class Question extends Component {
     if (target.name === correctAnswer) {
       this.questionScore();
     }
+    this.changeDisplay();
+  }
+
+  changeDisplay() {
+    const nextButton = document.querySelector('.next-button');
+    nextButton.style.visibility = 'visible';
   }
 
   render() {
-    const { question } = this.props;
+    const { question, nextQuestion } = this.props;
     const { alternatives, disabledButton, seconds } = this.state;
     return (
       <div>
@@ -150,10 +157,11 @@ export class Question extends Component {
         </div>
         { seconds }
         <button
+          className="next-button"
           type="button"
           data-testid="btn-next"
           // disabled={ isDisabled }
-          onClick={ () => {} }
+          onClick={ nextQuestion }
         >
           Next
         </button>
@@ -169,6 +177,7 @@ const mapDispatchToProps = (dispatch) => ({
 Question.propTypes = {
   question: PropTypes.string.isRequired,
   points: PropTypes.func.isRequired,
+  nextQuestion: PropTypes.func.isRequired,
 };
 
 export default connect(null, mapDispatchToProps)(Question);
