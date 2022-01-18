@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { pointsPlayer } from '../redux/action';
+import { pointsPlayer, assertionsPlayer } from '../redux/action';
 import './Question.css';
 
 const milliseconds = 1000;
@@ -65,7 +65,7 @@ export class Question extends Component {
   // Lógica para gerar randomicamente as respostas
   alternativesQuestions() {
     const { question } = this.props;
-    console.log(question);
+    // console.log(question);
     if (Object.keys(question).length > 0) {
       const answers = question.incorrect_answers
         .map((incorrect, index) => [incorrect, `wrong-answer-${index}`,
@@ -89,7 +89,7 @@ export class Question extends Component {
   // Lógica para score do game, pontuação:
   levelQuestion() {
     const { question } = this.props;
-    console.log(question);
+    // console.log(question);
     if (question.difficulty === 'medium') {
       return 2;
     }
@@ -102,11 +102,8 @@ export class Question extends Component {
   questionScore() {
     const { seconds } = this.state;
     const { points } = this.props;
-    console.log(points);
     const levelQuestionReturn = this.levelQuestion();
-    console.log(levelQuestionReturn);
     const calculatePoints = numeroDez + (levelQuestionReturn * seconds);
-    console.log(calculatePoints);
     points(calculatePoints);
   }
 
@@ -116,21 +113,19 @@ export class Question extends Component {
     });
   }
 
-  assertionQuestions(event) {
+  assertionQuestions() {
     const { assertions } = this.state;
-    if (event.name === correctAnswer) {
-      this.setState({
-        assertions: assertions + 1,
-      });
-    }
+    const { assert } = this.props;
+    this.setState({ assertions: assertions + 1 });
+    assert(assertions);
   }
 
   handleClick({ target }) {
     this.changeColor();
     this.stopTime();
-    this.assertionQuestions({ target });
     if (target.name === correctAnswer) {
       this.questionScore();
+      this.assertionQuestions();
     }
     this.changeDisplayVisible();
   }
@@ -148,7 +143,6 @@ export class Question extends Component {
       seconds: 30,
       clicked: false,
       disabledButton: false,
-      assertions: 0,
     });
     this.regressTimer();
   }
@@ -183,7 +177,6 @@ export class Question extends Component {
           className="next-button"
           type="button"
           data-testid="btn-next"
-          // disabled={ isDisabled }
           onClick={ this.handleNextClick }
         >
           Next
@@ -195,11 +188,13 @@ export class Question extends Component {
 
 const mapDispatchToProps = (dispatch) => ({
   points: (payload) => dispatch(pointsPlayer(payload)),
+  assert: (payload) => dispatch(assertionsPlayer(payload)),
 });
 
 Question.propTypes = {
   question: PropTypes.string.isRequired,
   points: PropTypes.func.isRequired,
+  assert: PropTypes.func.isRequired,
   nextQuestion: PropTypes.func.isRequired,
 };
 
