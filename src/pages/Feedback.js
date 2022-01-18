@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+// import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Header } from '../component/Header';
+import Header from '../component/Header';
 
 const assertionsNumber = 3;
 
@@ -17,6 +18,13 @@ export class Feedback extends Component {
         </p>
         <p data-testid="feedback-total-score">{ score }</p>
         <p data-testid="feedback-total-question">{ assertions }</p>
+        {/* <button
+          type="button"
+          data-testid="btn-play-again"
+          onClick={ <Redirect to="/" /> }
+        >
+          Play again
+        </button> */}
       </div>
     );
   }
@@ -32,6 +40,7 @@ const mapStateToProps = (state) => ({
 Feedback.propTypes = {
   score: PropTypes.number.isRequired,
   assertions: PropTypes.number.isRequired,
+  // history: PropTypes.instanceOf(Object).isRequired,
 };
 
 export default connect(mapStateToProps)(Feedback);
