@@ -8,7 +8,7 @@ const assertionsNumber = 3;
 
 export class Feedback extends Component {
   render() {
-    const { assertions, score } = this.props;
+    const { assertions, score, history } = this.props;
     return (
       <div>
         <Header />
@@ -18,13 +18,15 @@ export class Feedback extends Component {
         </p>
         <p data-testid="feedback-total-score">{ score }</p>
         <p data-testid="feedback-total-question">{ assertions }</p>
-        {/* <button
+        <button
           type="button"
           data-testid="btn-play-again"
-          onClick={ <Redirect to="/" /> }
+          onClick={ () => {
+            history.push('/');
+          } }
         >
           Play again
-        </button> */}
+        </button>
       </div>
     );
   }
@@ -40,7 +42,7 @@ const mapStateToProps = (state) => ({
 Feedback.propTypes = {
   score: PropTypes.number.isRequired,
   assertions: PropTypes.number.isRequired,
-  // history: PropTypes.instanceOf(Object).isRequired,
+  history: PropTypes.instanceOf(Object).isRequired,
 };
 
 export default connect(mapStateToProps)(Feedback);
