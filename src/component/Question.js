@@ -28,11 +28,21 @@ export class Question extends Component {
     this.assertionQuestions = this.assertionQuestions.bind(this);
     this.levelQuestion = this.levelQuestion.bind(this);
     this.questionScore = this.questionScore.bind(this);
+    this.changeDisplayVisible = this.changeDisplayVisible.bind(this);
+    this.handleNextClick = this.handleNextClick.bind(this);
   }
 
   componentDidMount() {
     this.alternativesQuestions();
     this.regressTimer();
+  }
+
+  // Lógica grupo Gabriel Fontes
+  componentDidUpdate(prevProps) {
+    const { question } = this.props;
+    if (prevProps.question !== question) {
+      this.alternativesQuestions();
+    }
   }
 
   // Lógica para o cronometro para responder as perguntas:
@@ -55,6 +65,7 @@ export class Question extends Component {
   // Lógica para gerar randomicamente as respostas
   alternativesQuestions() {
     const { question } = this.props;
+    console.log(question);
     if (Object.keys(question).length > 0) {
       const answers = question.incorrect_answers
         .map((incorrect, index) => [incorrect, `wrong-answer-${index}`,
@@ -121,6 +132,25 @@ export class Question extends Component {
     if (target.name === correctAnswer) {
       this.questionScore();
     }
+    this.changeDisplayVisible();
+  }
+
+  changeDisplayVisible() {
+    const nextButton = document.querySelector('.next-button');
+    nextButton.style.visibility = 'visible';
+  }
+
+  handleNextClick() {
+    const { nextQuestion } = this.props;
+    nextQuestion();
+    this.setState({
+      alternatives: [],
+      seconds: 30,
+      clicked: false,
+      disabledButton: false,
+      assertions: 0,
+    });
+    this.regressTimer();
   }
 
   render() {
@@ -150,10 +180,11 @@ export class Question extends Component {
         </div>
         { seconds }
         <button
+          className="next-button"
           type="button"
           data-testid="btn-next"
           // disabled={ isDisabled }
-          onClick={ () => {} }
+          onClick={ this.handleNextClick }
         >
           Next
         </button>
@@ -169,6 +200,7 @@ const mapDispatchToProps = (dispatch) => ({
 Question.propTypes = {
   question: PropTypes.string.isRequired,
   points: PropTypes.func.isRequired,
+  nextQuestion: PropTypes.func.isRequired,
 };
 
 export default connect(null, mapDispatchToProps)(Question);
