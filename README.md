@@ -1,4 +1,4 @@
-# Projeto Trybewarts
+# Projeto Trivia
 Projeto desenvolvido no bloco 18 de Front-end do curso de Desenvolvimento Web em grupo com os alunos [Alissandra Lima](https://github.com/anaualima), [Ruan Cunha](https://github.com/RuanCunha), [Samuel Gonçalves](https://github.com/samuel5g).
 
 
