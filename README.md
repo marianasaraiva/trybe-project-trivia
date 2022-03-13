@@ -33,5 +33,5 @@ Projeto desenvolvido no bloco 18 de Front-end do curso de Desenvolvimento Web em
 
 ## Gif do projeto:
 <p align="center">
-  <img  src="" alt="Black Cat Ask Gif"/>
+  <img  src="https://github.com/marianasaraiva/trybe-project-trivia/blob/main/Trivia_Final.gif" alt="Black Cat Ask Gif"/>
 </p>
